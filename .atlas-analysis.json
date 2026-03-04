@@ -1,0 +1,60 @@
+{
+  "projectType": "frontend",
+  "projectName": "raster's personal website",
+  "projectDescription": "A minimalist personal website and portfolio featuring custom typography and curated links",
+  "theme": "almond",
+  "primaryColor": "#000000",
+  "lightColor": "#b8b8b8",
+  "darkColor": "#828282",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Overview",
+        "pages": [
+          "introduction",
+          "getting-started"
+        ]
+      },
+      {
+        "group": "Design",
+        "pages": [
+          "design/typography",
+          "design/styling",
+          "design/assets"
+        ]
+      },
+      {
+        "group": "Features",
+        "pages": [
+          "features/status-cafe",
+          "features/links-page",
+          "features/convex-integration"
+        ]
+      },
+      {
+        "group": "Development",
+        "pages": [
+          "development/structure",
+          "development/deployment",
+          "development/customization"
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Minimalist design with custom typography (Host Grotesk, ServerMono)",
+    "Status.cafe integration for real-time status updates",
+    "Curated links and resources page",
+    "Convex backend for post management",
+    "Custom SVG logo and branding",
+    "Mobile-responsive centered layout"
+  ],
+  "publicApiSurface": [
+    "index.html - Main landing page",
+    "links/index.html - Links and resources page",
+    "styles.css - Global styles and typography",
+    "post-db/convex/posts.ts - Convex post mutation",
+    "logo.svg - Brand logo",
+    "robots.txt - SEO configuration"
+  ]
+}
