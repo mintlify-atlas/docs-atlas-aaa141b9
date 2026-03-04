@@ -1,0 +1,839 @@
+---
+title: 'Customization'
+description: 'Learn how to customize colors, typography, layout, and content in raster''s website'
+---
+
+## Changing Colors
+
+The site uses CSS custom properties (variables) for easy theme customization.
+
+### Color Variables
+
+Open **styles.css** and modify the `:root` selector:
+
+```css
+:root {
+    --sub: #828282;  /* Subdued/secondary color */
+    --main: #000000; /* Main/primary color */
+}
+```
+
+<Tabs>
+  <Tab title="Light Theme (Current)">
+    ```css
+    :root {
+        --sub: #828282;
+        --main: #000000;
+    }
+    
+    body {
+        color: #000000;
+        background-color: #ffffff;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Dark Theme">
+    ```css
+    :root {
+        --sub: #999999;
+        --main: #ffffff;
+    }
+    
+    body {
+        color: #ffffff;
+        background-color: #0a0a0a;
+    }
+    
+    a {
+        color: #ffffff;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Colorful Theme">
+    ```css
+    :root {
+        --sub: #8b7fc7;
+        --main: #5a4a9f;
+    }
+    
+    body {
+        color: #2d2645;
+        background-color: #faf9fc;
+    }
+    
+    a {
+        color: #5a4a9f;
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Footer Button Colors
+
+Customize the footer link buttons:
+
+```css
+.ftr {
+  font-size: 12px;
+  padding: 4px 7px;
+  border-radius: 7px;
+  background-color: #b8b8b8; /* Button background */
+  color: #ffffff;            /* Button text */
+  text-decoration: none;
+  margin-left: 3px;
+}
+
+/* Hover effect */
+.ftr:hover {
+  background-color: #a0a0a0;
+  transition: background-color 0.2s ease;
+}
+```
+
+<Warning>
+  Ensure sufficient color contrast for accessibility. Aim for at least 4.5:1 ratio for normal text and 3:1 for large text.
+</Warning>
+
+## Updating Typography
+
+The site uses a custom font stack with Host Grotesk as the primary typeface.
+
+### Changing the Primary Font
+
+**Option 1: Use a Different Local Font**
+
+```css
+body {
+    font-family: 'YourFontName', -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, Adwaita Sans, Cantarell, Ubuntu, roboto, noto, helvetica, arial, sans-serif;
+}
+```
+
+**Option 2: Use Google Fonts**
+
+<Steps>
+  <Step title="Add Font Link">
+    In **index.html** `<head>`:
+    
+    ```html
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    ```
+  </Step>
+  
+  <Step title="Update CSS">
+    In **styles.css**:
+    
+    ```css
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+    ```
+  </Step>
+</Steps>
+
+**Option 3: Use System Fonts Only**
+
+```css
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+```
+
+### Font Size Adjustments
+
+```css
+body {
+    font-size: 20px; /* Base size */
+}
+
+/* Make text smaller */
+body {
+    font-size: 16px;
+}
+
+/* Make text larger */
+body {
+    font-size: 24px;
+}
+
+/* Responsive sizing */
+body {
+    font-size: clamp(16px, 2.5vw, 20px);
+}
+```
+
+<Accordion title="Understanding the Font Stack">
+  The current font stack:
+  
+  ```css
+  font-family: 'Host Grotesk', -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, Adwaita Sans, Cantarell, Ubuntu, roboto, noto, helvetica, arial, sans-serif;
+  ```
+  
+  **Fallback order:**
+  1. Host Grotesk (custom web font)
+  2. -apple-system (macOS/iOS system font)
+  3. BlinkMacSystemFont (Chrome on macOS)
+  4. avenir next / avenir (macOS)
+  5. segoe ui (Windows)
+  6. helvetica neue (macOS/iOS)
+  7. Adwaita Sans (Linux GNOME)
+  8. Cantarell (Linux)
+  9. Ubuntu (Linux Ubuntu)
+  10. roboto, noto (Android)
+  11. helvetica, arial (universal fallbacks)
+  12. sans-serif (system default)
+</Accordion>
+
+### Adding Custom Fonts
+
+<Steps>
+  <Step title="Add Font Files">
+    Place font files in `/fonts/` directory:
+    
+    ```
+    /fonts/
+      YourFont-Regular.woff2
+      YourFont-Regular.woff
+      YourFont-Bold.woff2
+      YourFont-Bold.woff
+    ```
+  </Step>
+  
+  <Step title="Declare @font-face">
+    In **styles.css**:
+    
+    ```css
+    @font-face {
+      font-family: 'YourFont';
+      src: url('/fonts/YourFont-Regular.woff2') format('woff2'),
+           url('/fonts/YourFont-Regular.woff') format('woff');
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+    }
+    
+    @font-face {
+      font-family: 'YourFont';
+      src: url('/fonts/YourFont-Bold.woff2') format('woff2'),
+           url('/fonts/YourFont-Bold.woff') format('woff');
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+    }
+    ```
+  </Step>
+  
+  <Step title="Update Body Font">
+    ```css
+    body {
+      font-family: 'YourFont', sans-serif;
+    }
+    ```
+  </Step>
+</Steps>
+
+<Warning>
+  Use `font-display: swap` to prevent invisible text during font loading. The system font shows first, then swaps to custom font.
+</Warning>
+
+## Modifying Layout
+
+The site uses a centered, vertically-aligned layout with constrained width.
+
+### Width Adjustments
+
+```css
+body {
+    width: 70%;      /* Responsive width */
+    max-width: 400px; /* Maximum width */
+}
+```
+
+<Tabs>
+  <Tab title="Narrow Layout">
+    ```css
+    body {
+        width: 60%;
+        max-width: 350px;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Wide Layout">
+    ```css
+    body {
+        width: 85%;
+        max-width: 600px;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Full Width">
+    ```css
+    body {
+        width: 95%;
+        max-width: 1200px;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Fixed Width">
+    ```css
+    body {
+        width: 450px;
+        max-width: none;
+    }
+    
+    /* Add responsive override */
+    @media (max-width: 480px) {
+        body {
+            width: 90%;
+        }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Padding and Spacing
+
+```css
+body {
+    padding: 18px; /* Internal spacing */
+}
+
+/* Increase padding */
+body {
+    padding: 32px;
+}
+
+/* Responsive padding */
+body {
+    padding: clamp(16px, 3vw, 32px);
+}
+
+/* Different padding per side */
+body {
+    padding: 32px 24px; /* top/bottom left/right */
+}
+```
+
+### Vertical Centering
+
+The current centering approach:
+
+```css
+html, body {
+    height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+```
+
+<Accordion title="Alternative Centering Methods">
+  **Flexbox Method:**
+  ```css
+  html {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  
+  body {
+      width: 70%;
+      max-width: 400px;
+  }
+  ```
+  
+  **Grid Method:**
+  ```css
+  html {
+      height: 100%;
+      display: grid;
+      place-items: center;
+  }
+  
+  body {
+      width: 70%;
+      max-width: 400px;
+  }
+  ```
+  
+  **No Vertical Centering:**
+  ```css
+  body {
+      margin: 0 auto;
+      padding: 48px 18px;
+      width: 70%;
+      max-width: 400px;
+  }
+  ```
+</Accordion>
+
+### Mobile Responsiveness
+
+Add responsive breakpoints:
+
+```css
+/* Tablet */
+@media (max-width: 768px) {
+    body {
+        width: 80%;
+        max-width: 500px;
+        font-size: 18px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    body {
+        width: 90%;
+        font-size: 16px;
+        padding: 16px;
+    }
+    
+    .logo {
+        width: 10px;
+        height: 10px;
+    }
+}
+```
+
+## Replacing Logo
+
+The logo is a simple SVG file in the repository root.
+
+### Update Existing SVG
+
+**Method 1: Replace logo.svg**
+
+<Steps>
+  <Step title="Design New Logo">
+    Create your logo in any vector editor (Figma, Illustrator, Inkscape)
+  </Step>
+  
+  <Step title="Export as SVG">
+    Export with these settings:
+    - Format: SVG
+    - Remove unnecessary metadata
+    - Optimize/minify paths
+  </Step>
+  
+  <Step title="Replace File">
+    Save new SVG as `logo.svg` in repository root, overwriting old file
+  </Step>
+</Steps>
+
+**Method 2: Use Different Format**
+
+```html
+<!-- PNG logo -->
+<img class="logo" src="./logo.png">
+
+<!-- WebP logo (better compression) -->
+<img class="logo" src="./logo.webp">
+
+<!-- Emoji logo -->
+<div>🌀 raster</div>
+```
+
+### Adjust Logo Size
+
+In **styles.css**:
+
+```css
+.logo {
+  width: 12px;
+  height: 12px;
+}
+
+/* Larger logo */
+.logo {
+  width: 20px;
+  height: 20px;
+}
+
+/* Responsive logo */
+.logo {
+  width: clamp(10px, 2vw, 16px);
+  height: clamp(10px, 2vw, 16px);
+}
+```
+
+### Logo Color Customization
+
+For SVG logos, modify the `fill` attribute:
+
+```xml
+<!-- Black logo -->
+<path fill="#000000" ... />
+
+<!-- Colored logo -->
+<path fill="#5a4a9f" ... />
+
+<!-- CSS-controlled color -->
+<svg class="logo" ...>
+    <path fill="currentColor" ... />
+</svg>
+```
+
+Then in CSS:
+
+```css
+.logo {
+  color: #000000; /* Controls fill="currentColor" */
+}
+
+.logo:hover {
+  color: #5a4a9f;
+}
+```
+
+## Adding New Links
+
+The links page is a separate HTML file with categorized link collections.
+
+### Edit links/index.html
+
+**Add New Category:**
+
+```html
+<h2>design tools</h2>
+
+<p><a href="https://www.figma.com/">figma</a> (freemium) - collaborative design platform</p>
+<p><a href="https://www.sketch.com/">sketch</a> (paid) - mac design tool</p>
+<p><a href="https://affinity.serif.com/">affinity designer</a> (paid) - photoshop alternative</p>
+```
+
+**Add Link to Existing Category:**
+
+```html
+<h2>blogging tools</h2>
+
+<p><a href="https://tilde.club/~april/bloggable/">bloggable</a> (free) - free blog tool for neocities</p>
+<p><a href="https://bearblog.dev/">bear blog</a> (freemium) - no-fluff blogging platform</p>
+<!-- Add new link here -->
+<p><a href="https://write.as/">write.as</a> (freemium) - minimalist blogging platform</p>
+```
+
+<Accordion title="Link Format Convention">
+  The site follows this structure:
+  
+  ```html
+  <p><a href="URL">name</a> (pricing) - description</p>
+  ```
+  
+  **Pricing labels:**
+  - `(free)` - Completely free
+  - `(freemium)` - Free tier with paid upgrades
+  - `(paid)` - Paid only
+  - `(oss)` - Open source
+  - `(semi oss)` - Partially open source
+  
+  **Example:**
+  ```html
+  <p><a href="https://obsidian.md/">obsidian</a> (freemium) (semi oss) - note-taking app</p>
+  ```
+</Accordion>
+
+### Link to Links Page
+
+The homepage footer already includes the link:
+
+```html
+<div style="font-size: 14px; padding-top: 1rem;">
+    <a href="https://status.cafe/users/raster" class="ftr">status</a>
+    <a class="ftr" href="/links">links</a>
+</div>
+```
+
+Add more footer links:
+
+```html
+<div style="font-size: 14px; padding-top: 1rem;">
+    <a href="https://status.cafe/users/raster" class="ftr">status</a>
+    <a class="ftr" href="/links">links</a>
+    <a class="ftr" href="/blog">blog</a>
+    <a class="ftr" href="mailto:your@email.com">contact</a>
+</div>
+```
+
+## Customizing Status.cafe Username
+
+The Status.cafe widget displays your current status from the Status.cafe service.
+
+### Change Username
+
+In **index.html**, update the script source:
+
+```html
+<!-- Current username: raster -->
+<script src="https://status.cafe/current-status.js?name=raster" defer></script>
+
+<!-- Change to your username -->
+<script src="https://status.cafe/current-status.js?name=yourusername" defer></script>
+```
+
+### Widget Structure
+
+```html
+<div>
+    <div id="statuscafe">
+        <div id="statuscafe-username"></div>
+        <div id="statuscafe-content"></div>
+    </div>
+</div>
+<script src="https://status.cafe/current-status.js?name=raster" defer></script>
+```
+
+<Accordion title="Widget Customization">
+  **Style the widget:**
+  
+  ```css
+  #statuscafe {
+      margin-top: 1rem;
+      padding: 12px;
+      background-color: #f5f5f5;
+      border-radius: 8px;
+  }
+  
+  #statuscafe-username {
+      font-weight: bold;
+      font-size: 14px;
+      color: var(--main);
+  }
+  
+  #statuscafe-content {
+      margin-top: 4px;
+      font-size: 16px;
+      font-style: italic;
+  }
+  ```
+  
+  **Remove the widget:**
+  
+  Simply delete both the `<div id="statuscafe">` container and the `<script>` tag.
+</Accordion>
+
+### Alternative Status Services
+
+<Tabs>
+  <Tab title="No Widget">
+    Remove Status.cafe entirely:
+    
+    ```html
+    <body>
+        <div><img class="logo" src="./logo.svg"> raster</div>
+        <p>hey! i'm raster</p>
+        <p>i do graphic design, game dev(in the future), and a bit of (vibe)coding on the side</p>
+        <!-- Status widget removed -->
+        <div style="font-size: 14px; padding-top: 1rem;">
+            <a class="ftr" href="/links">links</a>
+        </div>
+    </body>
+    ```
+  </Tab>
+  
+  <Tab title="Custom Status">
+    Add your own static status:
+    
+    ```html
+    <div style="margin-top: 1rem; font-style: italic; color: var(--sub);">
+        Currently: Building cool stuff
+    </div>
+    ```
+  </Tab>
+  
+  <Tab title="omg.lol Now Page">
+    Link to omg.lol /now page:
+    
+    ```html
+    <p>See <a href="https://yourusername.omg.lol/now">what I'm up to now</a></p>
+    ```
+  </Tab>
+</Tabs>
+
+## Extending Convex Mutations
+
+The site includes a Convex backend setup for future blog functionality.
+
+### Current Mutation
+
+In **post-db/convex/posts.ts**:
+
+```typescript
+import { v } from "convex/values";
+import { internalMutation } from "./_generated/server";
+
+export const createPost = internalMutation({
+  args: {
+    content: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const id = await ctx.db.insert("posts", { content: args.content });
+    return id;
+  },
+});
+```
+
+### Add More Fields
+
+```typescript
+import { v } from "convex/values";
+import { internalMutation } from "./_generated/server";
+
+export const createPost = internalMutation({
+  args: {
+    title: v.string(),
+    content: v.string(),
+    author: v.string(),
+    tags: v.array(v.string()),
+    published: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    const id = await ctx.db.insert("posts", {
+      title: args.title,
+      content: args.content,
+      author: args.author,
+      tags: args.tags,
+      published: args.published,
+      createdAt: Date.now(),
+    });
+    return id;
+  },
+});
+```
+
+### Add Query Function
+
+```typescript
+import { v } from "convex/values";
+import { query, internalMutation } from "./_generated/server";
+
+// Get all published posts
+export const getPosts = query({
+  handler: async (ctx) => {
+    return await ctx.db
+      .query("posts")
+      .filter((q) => q.eq(q.field("published"), true))
+      .order("desc")
+      .collect();
+  },
+});
+
+// Get single post by ID
+export const getPost = query({
+  args: { postId: v.id("posts") },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.postId);
+  },
+});
+```
+
+### Add Update/Delete Mutations
+
+```typescript
+// Update post
+export const updatePost = internalMutation({
+  args: {
+    postId: v.id("posts"),
+    title: v.optional(v.string()),
+    content: v.optional(v.string()),
+    published: v.optional(v.boolean()),
+  },
+  handler: async (ctx, args) => {
+    const { postId, ...updates } = args;
+    await ctx.db.patch(postId, {
+      ...updates,
+      updatedAt: Date.now(),
+    });
+  },
+});
+
+// Delete post
+export const deletePost = internalMutation({
+  args: { postId: v.id("posts") },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.postId);
+  },
+});
+```
+
+<Warning>
+  These mutations are marked `internalMutation`, meaning they can only be called from Convex functions, not directly from the browser. For browser access, use `mutation` instead (but add authentication first!).
+</Warning>
+
+### Define Schema
+
+Create **post-db/convex/schema.ts**:
+
+```typescript
+import { defineSchema, defineTable } from "convex/server";
+import { v } from "convex/values";
+
+export default defineSchema({
+  posts: defineTable({
+    title: v.string(),
+    content: v.string(),
+    author: v.string(),
+    tags: v.array(v.string()),
+    published: v.boolean(),
+    createdAt: v.number(),
+    updatedAt: v.optional(v.number()),
+  })
+    .index("by_published", ["published"])
+    .index("by_author", ["author"])
+    .searchIndex("search_content", {
+      searchField: "content",
+      filterFields: ["published"],
+    }),
+});
+```
+
+<Accordion title="Setting up Convex">
+  To actually use Convex:
+  
+  <Steps>
+    <Step title="Install Convex CLI">
+      ```bash
+      npm install -g convex
+      ```
+    </Step>
+    
+    <Step title="Initialize Project">
+      ```bash
+      cd post-db
+      convex dev
+      ```
+    </Step>
+    
+    <Step title="Deploy Functions">
+      ```bash
+      convex deploy
+      ```
+    </Step>
+    
+    <Step title="Integrate with Frontend">
+      ```html
+      <script type="module">
+        import { ConvexHttpClient } from "convex/browser";
+        
+        const client = new ConvexHttpClient("https://your-deployment.convex.cloud");
+        const posts = await client.query("posts:getPosts");
+        console.log(posts);
+      </script>
+      ```
+    </Step>
+  </Steps>
+</Accordion>

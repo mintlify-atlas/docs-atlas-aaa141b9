@@ -1,0 +1,259 @@
+---
+title: 'Project Structure'
+description: 'Understanding the file organization and architecture of raster''s personal website'
+---
+
+## Overview
+
+The project follows a simple, flat structure optimized for GitHub Pages deployment with minimal dependencies and maximum performance.
+
+## Root Files
+
+### Core HTML
+
+**index.html** - Main landing page with personal introduction
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div><img class="logo" src="./logo.svg"> raster</div>
+    <p>hey! i'm raster</p>
+    <p>i do graphic design, game dev(in the future), and a bit of (vibe)coding on the side</p>
+    <div><div id="statuscafe"><div id="statuscafe-username"></div><div id="statuscafe-content"></div></div></div><script src="https://status.cafe/current-status.js?name=raster" defer></script>
+    <div style="font-size: 14px; padding-top: 1rem;"><a href="https://status.cafe/users/raster" class="ftr">status</a><a class="ftr" href="/links">links</a></div>
+</body>
+</html>
+```
+
+### Styling
+
+**styles.css** - Global styles with CSS custom properties and font declarations
+
+```css
+:root {
+    --sub: #828282;
+    --main: #000000;
+}
+
+body {
+    font-family: 'Host Grotesk', -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, Adwaita Sans, Cantarell, Ubuntu, roboto, noto, helvetica, arial, sans-serif;
+    padding: 18px;
+    color: #000000;
+    background-color: #ffffff;
+    font-size: 20px;
+    width: 70%;
+    max-width: 400px;
+}
+```
+
+### Assets
+
+**logo.svg** - Brand logo displayed in the header (12x12px black geometric shape)
+
+```xml
+<svg width="559px" height="559px" viewBox="0 0 559 559">
+    <path d="M114.866481,5.6746597 L503.83795,155.484925 C521.435725,162.262613..." 
+          fill="#000000" fill-rule="nonzero"></path>
+</svg>
+```
+
+### Configuration Files
+
+<Tabs>
+  <Tab title="CNAME">
+    Custom domain configuration for GitHub Pages:
+    
+    ```
+    r.foo.ng
+    ```
+  </Tab>
+  <Tab title="robots.txt">
+    SEO and bot management configuration:
+    
+    ```
+    User-agent: CCBot
+    Disallow: /
+    
+    User-agent: GPTBot
+    Disallow: /
+    
+    User-agent: ClaudeBot
+    Disallow: /
+    ```
+    
+    Blocks AI crawlers and scrapers while allowing standard search engines.
+  </Tab>
+  <Tab title="package.json">
+    Node.js dependencies:
+    
+    ```json
+    {
+      "dependencies": {
+        "@paper-design/shaders-react": "^0.0.71",
+        "motion": "^12.34.0"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Directory Structure
+
+### /fonts/
+
+Local font files for Host Grotesk typeface:
+
+- **HostGrotesk-Regular.woff2** / **.woff** - Regular weight
+- **HostGrotesk-Medium.woff2** / **.woff** - Medium weight
+- **HostGrotesk-MediumItalic.woff2** / **.woff** - Medium italic
+
+<Warning>
+  WOFF2 files provide better compression but WOFF files ensure broader browser compatibility.
+</Warning>
+
+### /links/
+
+Subpage for curated link collection:
+
+**links/index.html** - Organized link directory with categories
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/styles.css" rel="stylesheet">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/zero-md@3?register"></script>
+</head>
+<body>
+    <h2>blogging tools</h2>
+    <p><a href="https://tilde.club/~april/bloggable/">bloggable</a> (free) - free blog tool for neocities</p>
+    <p><a href="https://bearblog.dev/">bear blog</a> (freemium) - no-fluff blogging platform</p>
+</body>
+</html>
+```
+
+### /post-db/convex/
+
+Convex backend integration for future blog functionality:
+
+**posts.ts** - Database mutation for creating posts
+
+```typescript
+import { v } from "convex/values";
+import { internalMutation } from "./_generated/server";
+
+export const createPost = internalMutation({
+  args: {
+    content: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const id = await ctx.db.insert("posts", { content: args.content });
+    return id;
+  },
+});
+```
+
+### /node_modules/
+
+Installed npm dependencies (not committed to git):
+
+- **motion** - Animation library (v12.34.0)
+- **@paper-design/shaders-react** - Shader components (v0.0.71)
+- **framer-motion** - Dependency of motion
+- **tslib** - TypeScript runtime library
+
+## Dependencies
+
+### Direct Dependencies
+
+<Accordion title="@paper-design/shaders-react (v0.0.71)">
+  React components for WebGL shader effects. Provides visual effects and graphics capabilities.
+  
+  **Usage:** Currently installed but not actively used in the HTML pages. Likely for future React integration.
+</Accordion>
+
+<Accordion title="motion (v12.34.0)">
+  Modern animation library for web applications. Lightweight alternative to Framer Motion.
+  
+  **Usage:** Currently installed but not actively used in the static HTML. Reserved for interactive features.
+</Accordion>
+
+## Git Configuration
+
+**.gitignore** - Files excluded from version control:
+
+```
+.DS_Store
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.env.local
+.env.*.local
+.vscode/
+.idea/
+```
+
+<Warning>
+  Always keep `.env` files in `.gitignore` to prevent accidentally committing sensitive credentials.
+</Warning>
+
+## File Organization Principles
+
+### Flat Structure
+
+The project uses a flat directory structure with minimal nesting:
+
+- Root-level HTML files for direct GitHub Pages routing
+- Separate directories only for logical groupings (fonts, links, post-db)
+- No build process or bundling required
+
+### Static-First
+
+The site prioritizes static HTML/CSS over JavaScript:
+
+- Zero JavaScript in main index.html (except Status.cafe widget)
+- CSS handles all styling without preprocessors
+- External CDN resources loaded via `defer` attribute
+
+### Asset Organization
+
+<Tabs>
+  <Tab title="Local Assets">
+    - **Fonts:** Self-hosted in `/fonts/` directory
+    - **Logo:** Root-level SVG for fast loading
+    - **Styles:** Single global CSS file
+  </Tab>
+  <Tab title="External Assets">
+    - **ServerMono font:** Loaded from jsdelivr CDN
+    - **Status.cafe widget:** Loaded from status.cafe
+    - **zero-md:** Loaded from npm CDN (links page only)
+  </Tab>
+</Tabs>
+
+### Convention Standards
+
+- **File naming:** Lowercase with hyphens (kebab-case)
+- **HTML:** Semantic tags, minimal inline styles
+- **CSS:** Root variables for theming, mobile-first approach
+- **SVG:** Inline or referenced, optimized paths
+
+## Repository Pattern
+
+The site uses a **username.github.io** repository pattern:
+
+- Repository name: `rdotsvg.github.io`
+- Automatically deploys from `main` branch
+- Custom domain configured via CNAME file
+- No GitHub Actions workflow needed (native Pages support)
+
+<Warning>
+  For username.github.io repositories, GitHub Pages only deploys from the `main` branch root directory.
+</Warning>

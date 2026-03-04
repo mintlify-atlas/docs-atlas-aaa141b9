@@ -1,0 +1,105 @@
+---
+title: 'Status.cafe Integration'
+description: 'Real-time status updates powered by Status.cafe'
+---
+
+## Overview
+
+[Status.cafe](https://status.cafe) is a real-time status updates service that lets you share what you're currently doing or thinking. The site integrates Status.cafe to display live status updates on the homepage.
+
+<Note>
+Status.cafe provides a simple way to share your current mood, activity, or thoughts without the overhead of a full social media platform.
+</Note>
+
+## How It Works
+
+The integration uses Status.cafe's JavaScript API to dynamically load and display the current status:
+
+### Script Integration
+
+The status is loaded via a script tag that fetches the current status for the username `raster`:
+
+```html
+<script src="https://status.cafe/current-status.js?name=raster" defer></script>
+```
+
+### HTML Structure
+
+The status is displayed using a three-layer div structure:
+
+```html
+<div>
+  <div id="statuscafe">
+    <div id="statuscafe-username"></div>
+    <div id="statuscafe-content"></div>
+  </div>
+</div>
+```
+
+<Info>
+The Status.cafe script automatically populates the `#statuscafe-username` and `#statuscafe-content` divs with the latest status information.
+</Info>
+
+### Complete Implementation
+
+Here's the full implementation from `index.html:12-13`:
+
+```html
+<div>
+  <div id="statuscafe">
+    <div id="statuscafe-username"></div>
+    <div id="statuscafe-content"></div>
+  </div>
+</div>
+<script src="https://status.cafe/current-status.js?name=raster" defer></script>
+```
+
+## Footer Link
+
+The footer includes a direct link to view the full status history:
+
+```html
+<a href="https://status.cafe/users/raster" class="ftr">status</a>
+```
+
+This allows visitors to see all past status updates on the Status.cafe platform.
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Real-time Updates" icon="clock">
+    Status updates appear instantly without page reload
+  </Card>
+  <Card title="Simple Integration" icon="code">
+    Just one script tag and three divs needed
+  </Card>
+  <Card title="No Backend Required" icon="server">
+    Status.cafe handles all the data storage
+  </Card>
+  <Card title="Minimal Footprint" icon="feather">
+    Lightweight JavaScript with no dependencies
+  </Card>
+</CardGroup>
+
+## Customization
+
+To use Status.cafe on your own site:
+
+<Steps>
+  <Step title="Create an account">
+    Sign up at [status.cafe](https://status.cafe)
+  </Step>
+  <Step title="Add the HTML structure">
+    Include the three-div structure shown above
+  </Step>
+  <Step title="Load the script">
+    Add the script tag with your username: `?name=YOUR_USERNAME`
+  </Step>
+  <Step title="Style it">
+    Add custom CSS to match your site's design
+  </Step>
+</Steps>
+
+<Warning>
+Make sure to replace `raster` with your actual Status.cafe username in both the script URL and the footer link.
+</Warning>

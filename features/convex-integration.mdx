@@ -1,0 +1,210 @@
+---
+title: 'Convex Backend Integration'
+description: 'Serverless backend powered by Convex for post management'
+---
+
+## Overview
+
+[Convex](https://convex.dev) is a serverless backend platform that provides a real-time database and functions-as-a-service. The site uses Convex to handle post creation and storage.
+
+<Note>
+Convex eliminates the need for traditional backend infrastructure by providing a fully-managed database and serverless functions.
+</Note>
+
+## What is Convex?
+
+Convex is a serverless backend-as-a-service platform that offers:
+
+<CardGroup cols={2}>
+  <Card title="Real-time Database" icon="database">
+    NoSQL database with automatic reactivity
+  </Card>
+  <Card title="Type-safe Functions" icon="shield">
+    Full TypeScript support with runtime validation
+  </Card>
+  <Card title="Serverless Architecture" icon="cloud">
+    No servers to manage or scale
+  </Card>
+  <Card title="Built-in Validation" icon="check">
+    Schema validation using Convex's value system
+  </Card>
+</CardGroup>
+
+## The createPost Mutation
+
+The core functionality is implemented through the `createPost` mutation in `post-db/convex/posts.ts:4-12`:
+
+```typescript post-db/convex/posts.ts
+import { v } from "convex/values";
+import { internalMutation } from "./_generated/server";
+
+export const createPost = internalMutation({
+  args: {
+    content: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const id = await ctx.db.insert("posts", { content: args.content });
+    return id;
+  },
+});
+```
+
+## Code Breakdown
+
+### Imports
+
+```typescript
+import { v } from "convex/values";
+import { internalMutation } from "./_generated/server";
+```
+
+<Info>
+- `v` provides runtime type validation for function arguments
+- `internalMutation` creates a mutation that can only be called from other Convex functions (not directly from the client)
+</Info>
+
+### Mutation Definition
+
+```typescript
+export const createPost = internalMutation({
+  args: {
+    content: v.string(),
+  },
+  // ...
+});
+```
+
+The mutation accepts a single parameter:
+
+<ParamField path="content" type="string" required>
+  The text content of the post to be created
+</ParamField>
+
+<Warning>
+This is an `internalMutation`, meaning it can only be called from other Convex functions, not directly from the client. This provides an extra layer of security.
+</Warning>
+
+### Handler Logic
+
+```typescript
+handler: async (ctx, args) => {
+  const id = await ctx.db.insert("posts", { content: args.content });
+  return id;
+}
+```
+
+The handler performs these steps:
+
+<Steps>
+  <Step title="Receive context and arguments">
+    `ctx` provides database access, `args` contains the validated `content` string
+  </Step>
+  <Step title="Insert into database">
+    Uses `ctx.db.insert()` to add a new document to the "posts" table
+  </Step>
+  <Step title="Return the ID">
+    Returns the auto-generated document ID for the newly created post
+  </Step>
+</Steps>
+
+## Database Schema
+
+The mutation inserts documents into the `"posts"` table with this structure:
+
+```typescript
+{
+  content: string  // The post content
+}
+```
+
+<Info>
+Convex automatically adds system fields like `_id` (unique identifier) and `_creationTime` (timestamp) to every document.
+</Info>
+
+## Using the Mutation
+
+Since this is an internal mutation, it must be called from another Convex function:
+
+### From Another Mutation
+
+```typescript
+import { internalMutation } from "./_generated/server";
+import { internal } from "./_generated/api";
+
+export const createPostFromClient = internalMutation({
+  args: {
+    content: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Call the internal mutation
+    const postId = await ctx.runMutation(internal.posts.createPost, {
+      content: args.content,
+    });
+    return postId;
+  },
+});
+```
+
+### From a Query
+
+```typescript
+import { query } from "./_generated/server";
+import { internal } from "./_generated/api";
+
+export const getAllPosts = query({
+  handler: async (ctx) => {
+    // Read from the posts table
+    const posts = await ctx.db.query("posts").collect();
+    return posts;
+  },
+});
+```
+
+## Key Features
+
+<AccordionGroup>
+  <Accordion title="Type Safety" icon="shield-check">
+    The `v.string()` validator ensures that `content` is always a string at runtime, catching type errors before they reach the database.
+  </Accordion>
+  
+  <Accordion title="Internal Security" icon="lock">
+    Using `internalMutation` instead of `mutation` means this function cannot be called directly from client code, providing an additional security layer.
+  </Accordion>
+  
+  <Accordion title="Automatic ID Generation" icon="fingerprint">
+    Convex automatically generates unique IDs for each document, which are returned by the `insert()` method.
+  </Accordion>
+  
+  <Accordion title="Async/Await Support" icon="clock">
+    Full support for modern async patterns makes database operations clean and readable.
+  </Accordion>
+</AccordionGroup>
+
+## Error Handling
+
+Convex automatically handles common errors:
+
+- **Validation errors**: If `content` is not a string, Convex returns a clear error message
+- **Database errors**: Connection issues and write failures are handled gracefully
+- **Type errors**: TypeScript catches type mismatches at compile time
+
+<Tip>
+For production applications, consider adding custom error handling and logging within the handler function.
+</Tip>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Add Queries" icon="magnifying-glass" href="https://docs.convex.dev/functions/queries">
+    Create queries to read posts from the database
+  </Card>
+  <Card title="Add Validation" icon="clipboard-check" href="https://docs.convex.dev/database/types">
+    Add more sophisticated validation with Convex validators
+  </Card>
+  <Card title="Public Mutations" icon="globe" href="https://docs.convex.dev/functions/mutations">
+    Convert to a public mutation for client access
+  </Card>
+  <Card title="Convex Docs" icon="book" href="https://docs.convex.dev">
+    Explore the full Convex documentation
+  </Card>
+</CardGroup>

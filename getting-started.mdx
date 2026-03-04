@@ -1,0 +1,428 @@
+---
+title: Getting Started
+description: Complete guide to setting up, customizing, and deploying raster's minimalist personal portfolio website
+---
+
+## Prerequisites
+
+Before you begin, make sure you have the following:
+
+<CardGroup cols={2}>
+  <Card title="Modern Browser" icon="browser">
+    Chrome, Firefox, Safari, or Edge (latest version)
+  </Card>
+  <Card title="Code Editor" icon="code">
+    VS Code, Sublime Text, or your preferred editor
+  </Card>
+  <Card title="Basic Knowledge" icon="graduation-cap">
+    HTML, CSS fundamentals
+  </Card>
+  <Card title="Node.js" icon="node-js">
+    For installing npm dependencies (optional)
+  </Card>
+</CardGroup>
+
+<Note>
+While Node.js is listed as a dependency for the animation libraries, the core site works perfectly with just HTML and CSS. The motion and @paper-design/shaders-react packages are optional enhancements.
+</Note>
+
+## Installation
+
+<Steps>
+
+<Step title="Clone the Repository">
+
+First, clone the repository to your local machine:
+
+```bash
+git clone <repository-url>
+cd <repository-name>
+```
+
+This will download all the source files to your computer.
+
+</Step>
+
+<Step title="Install Dependencies">
+
+The project uses two npm packages for enhanced animations and visual effects:
+
+```bash
+npm install
+```
+
+This installs:
+- **motion** (v12.34.0) - A lightweight animation library
+- **@paper-design/shaders-react** (v0.0.71) - React-based shader effects
+
+<Tip>
+If you prefer to keep the site completely vanilla, you can skip this step. The core functionality works without these dependencies.
+</Tip>
+
+</Step>
+
+<Step title="Review the Project Structure">
+
+Familiarize yourself with the file organization:
+
+```
+.
+├── index.html              # Homepage - start here!
+├── styles.css             # All your styles in one place
+├── logo.svg               # Custom logo (edit as needed)
+├── fonts/                 # Self-hosted typefaces
+│   ├── HostGrotesk-Regular.woff
+│   ├── HostGrotesk-Regular.woff2
+│   ├── HostGrotesk-Medium.woff
+│   ├── HostGrotesk-Medium.woff2
+│   ├── HostGrotesk-MediumItalic.woff
+│   └── HostGrotesk-MediumItalic.woff2
+├── links/
+│   └── index.html        # Links page
+├── post-db/
+│   └── convex/
+│       └── posts.ts      # Convex backend integration
+├── robots.txt            # Bot protection
+├── CNAME                 # Domain configuration
+└── package.json          # Dependencies
+```
+
+</Step>
+
+<Step title="Preview the Site Locally">
+
+You have several options for previewing the site:
+
+<Tabs>
+  <Tab title="Python">
+    ```bash
+    # Python 3
+    python -m http.server 8000
+    
+    # Python 2
+    python -m SimpleHTTPServer 8000
+    ```
+    
+    Then visit `http://localhost:8000` in your browser.
+  </Tab>
+  
+  <Tab title="Node.js">
+    ```bash
+    # Install http-server globally
+    npm install -g http-server
+    
+    # Run the server
+    http-server
+    ```
+    
+    Visit `http://localhost:8080` in your browser.
+  </Tab>
+  
+  <Tab title="VS Code">
+    Install the "Live Server" extension, then right-click on `index.html` and select "Open with Live Server".
+  </Tab>
+  
+  <Tab title="Direct">
+    Simply double-click `index.html` to open it directly in your browser. Note: Some features may require a proper web server.
+  </Tab>
+</Tabs>
+
+</Step>
+
+</Steps>
+
+## Understanding the Codebase
+
+### The Homepage (index.html)
+
+The homepage is beautifully minimal:
+
+```html index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div><img class="logo" src="./logo.svg"> raster</div>
+    <p>hey! i'm raster</p>
+    <p>i do graphic design, game dev(in the future), and a bit of (vibe)coding on the side</p>
+    
+    <!-- Status.cafe Integration -->
+    <div>
+      <div id="statuscafe">
+        <div id="statuscafe-username"></div>
+        <div id="statuscafe-content"></div>
+      </div>
+    </div>
+    <script src="https://status.cafe/current-status.js?name=raster" defer></script>
+    
+    <!-- Footer Navigation -->
+    <div style="font-size: 14px; padding-top: 1rem;">
+      <a href="https://status.cafe/users/raster" class="ftr">status</a>
+      <a class="ftr" href="/links">links</a>
+    </div>
+</body>
+</html>
+```
+
+<Accordion title="Key Elements Explained">
+  - **Logo + Name**: SVG logo with text identifier
+  - **Bio**: Short, personality-driven introduction
+  - **Status Widget**: Live updates from Status.cafe
+  - **Footer Links**: Minimal navigation to key pages
+</Accordion>
+
+### The Stylesheet (styles.css)
+
+The CSS is organized into clear sections:
+
+<CodeGroup>
+
+```css Font Loading
+@font-face {
+  font-family: 'Host Grotesk';
+  src: url('/fonts/HostGrotesk-Regular.woff') format('woff'),
+       url('/fonts/HostGrotesk-Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+```
+
+```css Color Palette
+:root {
+  --sub: #828282;     /* Gray for secondary text */
+  --main: #000000;    /* Black for primary content */
+}
+```
+
+```css Centered Layout
+html {
+  display: table;
+  margin: auto;
+}
+
+body {
+  font-family: 'Host Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 18px;
+  color: #000000;
+  background-color: #ffffff;
+  font-size: 20px;
+  width: 70%;
+  max-width: 400px;
+  display: table-cell;
+  vertical-align: middle;
+}
+```
+
+```css Button Styling
+.ftr {
+  font-size: 12px;
+  padding: 4px 7px;
+  border-radius: 7px;
+  background-color: #b8b8b8;
+  color: #ffffff;
+  text-decoration: none;
+  margin-left: 3px;
+}
+```
+
+</CodeGroup>
+
+### The Links Page
+
+The links page (`links/index.html`) showcases curated tools organized by category:
+
+```html
+<h2>blogging tools</h2>
+<p><a href="https://bearblog.dev/">bear blog</a> (freemium) - no-fluff blogging platform</p>
+
+<h2>browsers</h2>
+<p><a href="https://arc.net/">arc</a> (free) - og sidebar browser</p>
+
+<h2>media tools</h2>
+<p><a href="https://www.tldraw.com/">tldraw</a> (freemium) (semi oss) - very good free whiteboard</p>
+```
+
+Each link includes:
+- The tool name (linked)
+- Pricing model (free, freemium, paid, oss)
+- Brief description
+
+## Customization Guide
+
+### Personalizing the Content
+
+<Steps>
+
+<Step title="Update Your Information">
+
+Edit `index.html` to replace raster's info with yours:
+
+```html
+<div><img class="logo" src="./logo.svg"> your-name</div>
+<p>hey! i'm [your name]</p>
+<p>[your bio and what you do]</p>
+```
+
+</Step>
+
+<Step title="Configure Status.cafe">
+
+If you have a Status.cafe account, update the script source:
+
+```html
+<script src="https://status.cafe/current-status.js?name=your-username" defer></script>
+```
+
+Also update the status link in the footer:
+
+```html
+<a href="https://status.cafe/users/your-username" class="ftr">status</a>
+```
+
+If you don't use Status.cafe, simply remove the entire status div and script.
+
+</Step>
+
+<Step title="Customize the Links Page">
+
+Edit `links/index.html` to add your own curated resources:
+
+```html
+<h2>your category</h2>
+<p><a href="https://example.com/">tool name</a> (pricing) - description</p>
+```
+
+</Step>
+
+<Step title="Replace the Logo">
+
+Create your own SVG logo and replace `logo.svg`, or use a different image format:
+
+```html
+<img class="logo" src="./logo.png">
+```
+
+Make sure to update the CSS if you change dimensions:
+
+```css
+.logo {
+  width: 12px;
+  height: 12px;
+}
+```
+
+</Step>
+
+</Steps>
+
+### Styling Modifications
+
+<Tabs>
+  <Tab title="Colors">
+    Update the color scheme in `styles.css`:
+    
+    ```css
+    :root {
+      --sub: #your-secondary-color;
+      --main: #your-primary-color;
+    }
+    
+    body {
+      color: #your-text-color;
+      background-color: #your-bg-color;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Typography">
+    Change the font size or typeface:
+    
+    ```css
+    body {
+      font-family: 'Your Font', sans-serif;
+      font-size: 18px; /* Adjust as needed */
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Layout Width">
+    Adjust the content width:
+    
+    ```css
+    body {
+      width: 80%;        /* Wider content */
+      max-width: 600px;  /* Larger max width */
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Button Style">
+    Customize the footer buttons:
+    
+    ```css
+    .ftr {
+      font-size: 14px;
+      padding: 6px 10px;
+      border-radius: 12px;
+      background-color: #your-color;
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Deployment
+
+The site is static HTML/CSS and can be deployed to any web host:
+
+<CardGroup cols={2}>
+  <Card title="GitHub Pages" icon="github">
+    Free hosting with custom domains. Push to a `gh-pages` branch or use GitHub Actions.
+  </Card>
+  
+  <Card title="Netlify" icon="cloud">
+    Drag and drop deployment with automatic builds from Git. Free tier available.
+  </Card>
+  
+  <Card title="Vercel" icon="triangle">
+    Zero-config deployment for static sites. Connect your Git repository.
+  </Card>
+  
+  <Card title="Neocities" icon="globe">
+    Free retro-style web hosting. Perfect for personal sites and portfolios.
+  </Card>
+</CardGroup>
+
+<Warning>
+If using a custom domain, update the `CNAME` file with your domain name.
+</Warning>
+
+## Next Steps
+
+Now that you have the site running locally:
+
+<CardGroup cols={2}>
+  <Card title="Explore the Design System" icon="palette" href="/design/typography">
+    Learn about typography, colors, and spacing
+  </Card>
+  
+  <Card title="Add Status.cafe" icon="broadcast-tower" href="/features/status-cafe">
+    Set up real-time status updates
+  </Card>
+  
+  <Card title="Customize Styling" icon="paintbrush" href="/design/styling">
+    Modify colors, fonts, and layout
+  </Card>
+  
+  <Card title="Deploy Your Site" icon="rocket" href="/deployment">
+    Get your portfolio live on the web
+  </Card>
+</CardGroup>
+
+<Tip>
+Keep the minimalist philosophy in mind as you customize. Sometimes less is more!
+</Tip>

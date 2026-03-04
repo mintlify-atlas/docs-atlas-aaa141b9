@@ -1,0 +1,192 @@
+---
+title: Introduction
+description: An overview of raster's minimalist personal portfolio website - showcasing graphic design, game development, and coding projects
+---
+
+## Welcome to Raster's Website
+
+This is a minimalist personal portfolio website for raster, a creative who specializes in graphic design, game development (coming soon), and coding. The site embraces a clean, distraction-free aesthetic that puts content first.
+
+## Purpose
+
+The website serves as:
+
+- **Personal Portfolio** - A digital home showcasing raster's work across multiple creative disciplines
+- **Status Updates** - Real-time status integration via Status.cafe
+- **Resource Hub** - A curated collection of useful tools and links for the web community
+
+## Key Features
+
+### Minimalist Design Philosophy
+
+The site is built on principles of simplicity and clarity:
+
+- **Clean Layout** - Centered, single-column layout with generous whitespace
+- **Typography-First** - Relies on beautiful typefaces rather than heavy graphics
+- **Mobile-Responsive** - Adapts seamlessly to any screen size
+- **Fast Loading** - Minimal dependencies for quick page loads
+
+### Custom Typography Approach
+
+The site uses a carefully curated typography system with two primary typefaces:
+
+<CodeGroup>
+
+```css Host Grotesk (Primary)
+@font-face {
+  font-family: 'Host Grotesk';
+  src: url('/fonts/HostGrotesk-Regular.woff') format('woff'),
+       url('/fonts/HostGrotesk-Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+```
+
+```css ServerMono (Accent)
+@font-face {
+  font-family: 'ServerMono';
+  src: url('https://cdn.jsdelivr.net/gh/internet-development/www-server-mono@latest/public/fonts/ServerMono-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+</CodeGroup>
+
+**Host Grotesk** serves as the primary typeface for body text and headings, providing a clean, modern sans-serif appearance. **ServerMono** (loaded via CDN) adds monospace character for technical contexts.
+
+All fonts use `font-display: swap` to ensure text remains visible during font loading.
+
+### Status.cafe Integration
+
+The homepage features live status updates powered by [Status.cafe](https://status.cafe), allowing visitors to see what raster is currently up to:
+
+```html
+<div>
+  <div id="statuscafe">
+    <div id="statuscafe-username"></div>
+    <div id="statuscafe-content"></div>
+  </div>
+</div>
+<script src="https://status.cafe/current-status.js?name=raster" defer></script>
+```
+
+This integration provides a personal touch and real-time connection with visitors.
+
+### Navigation & Structure
+
+The site features a simple, intuitive navigation system:
+
+- **Home** (`/`) - Main landing page with introduction and current status
+- **Links** (`/links/`) - Curated collection of useful tools and resources
+- **Status** - External link to full Status.cafe profile
+
+## Architecture
+
+### Technology Stack
+
+<CardGroup cols={2}>
+  <Card title="Frontend" icon="code">
+    Pure HTML & CSS with minimal JavaScript
+  </Card>
+  <Card title="Styling" icon="palette">
+    Custom CSS with CSS variables for theming
+  </Card>
+  <Card title="Dependencies" icon="cube">
+    motion (v12.34.0) and @paper-design/shaders-react (v0.0.71)
+  </Card>
+  <Card title="Hosting" icon="server">
+    Static files deployable to any web host
+  </Card>
+</CardGroup>
+
+### File Structure
+
+The project follows a flat, easy-to-navigate structure:
+
+```
+.
+├── index.html              # Main homepage
+├── styles.css             # Global styles and typography
+├── logo.svg               # Custom logo graphic
+├── fonts/                 # Self-hosted Host Grotesk fonts
+│   ├── HostGrotesk-Regular.woff
+│   ├── HostGrotesk-Regular.woff2
+│   ├── HostGrotesk-Medium.woff
+│   ├── HostGrotesk-Medium.woff2
+│   ├── HostGrotesk-MediumItalic.woff
+│   └── HostGrotesk-MediumItalic.woff2
+├── links/
+│   └── index.html        # Links and resources page
+├── post-db/
+│   └── convex/           # Backend integration (Convex)
+│       └── posts.ts      # Post creation mutations
+├── robots.txt            # Search engine directives
+├── CNAME                 # Custom domain configuration
+└── package.json          # Node dependencies
+```
+
+### Design System
+
+The site uses a minimal color palette defined with CSS custom properties:
+
+```css
+:root {
+  --sub: #828282;    /* Subdued/secondary text */
+  --main: #000000;   /* Primary text color */
+}
+```
+
+Background is pure white (`#ffffff`), creating maximum contrast and readability.
+
+### Responsive Layout
+
+The site uses a centered, table-based layout approach for perfect vertical and horizontal centering:
+
+```css
+html {
+  display: table;
+  margin: auto;
+}
+
+body {
+  width: 70%;
+  max-width: 400px;
+  display: table-cell;
+  vertical-align: middle;
+}
+```
+
+<Note>
+The narrow content width (max 400px) creates an intimate, focused reading experience perfect for mobile and desktop viewing.
+</Note>
+
+## AI Bot Protection
+
+The site includes a comprehensive `robots.txt` file that blocks AI training bots and web scrapers, including:
+- OpenAI (GPTBot, ChatGPT-User)
+- Anthropic (ClaudeBot, anthropic-ai)
+- Google Extended
+- Meta crawlers
+- And many more
+
+This protects the site's content from being used in AI training datasets without consent.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Getting Started" icon="rocket" href="/getting-started">
+    Set up the project locally and start customizing
+  </Card>
+  <Card title="Design System" icon="swatchbook" href="/design/typography">
+    Explore the typography and styling approach
+  </Card>
+  <Card title="Features" icon="sparkles" href="/features/status-cafe">
+    Dive into Status.cafe integration and more
+  </Card>
+  <Card title="Development" icon="terminal" href="/development/structure">
+    Learn about the development workflow
+  </Card>
+</CardGroup>

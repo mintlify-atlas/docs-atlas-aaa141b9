@@ -1,0 +1,265 @@
+---
+title: Assets
+description: Visual assets including logo, fonts, favicon, and configuration files
+---
+
+## Overview
+
+The site uses minimal visual assets: a geometric SVG logo, self-hosted font files, and configuration files for SEO and domain setup.
+
+## Logo SVG
+
+### Visual Description
+
+The logo is a black geometric shape resembling an irregular heptagon or abstract gem:
+
+<CardGroup cols={2}>
+  <Card title="Geometry" icon="shapes">
+    Asymmetric polygon with 7 defined points creating a dynamic, angular form
+  </Card>
+  <Card title="Style" icon="paintbrush">
+    Solid black fill (`#000000`) with no stroke, matching the monochrome design system
+  </Card>
+</CardGroup>
+
+### SVG Specifications
+
+- **Dimensions**: 559px x 559px viewBox
+- **Fill**: `#000000` (black)
+- **Fill rule**: `nonzero`
+- **Format**: Clean, minimal SVG with single path element
+
+### Complete SVG Code
+
+```xml logo.svg
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="559px" height="559px" viewBox="0 0 559 559" version="1.1" 
+     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Path Copy 2</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M114.866481,5.6746597 L503.83795,155.484925 C521.435725,162.262613 536.267276,174.726119 545.975253,190.89394 C570.017183,230.933755 557.06446,282.867826 517.022013,306.875241 L389.803644,383.148906 C387.070771,384.787397 384.784627,387.073405 383.146118,389.80598 L306.867899,517.016752 C297.167323,533.194604 282.330147,545.657181 264.719414,552.420406 C221.152546,569.151824 172.250975,547.39366 155.471855,503.833096 L5.6526448,114.884854 L3.18321353,107.470064 C-1.75733655,89.9781442 -0.947484891,71.2845241 5.61720006,54.1928102 C22.3587438,10.6047813 71.2814384,-11.1118844 114.866481,5.6746597 Z" 
+              id="Path-Copy-2" fill="#000000" fill-rule="nonzero"></path>
+    </g>
+</svg>
+```
+
+<Info>
+The logo is displayed at 12x12 pixels using the `.logo` CSS class (see [Styling](/design/styling)), making it a compact inline icon.
+</Info>
+
+## Font Files
+
+### Host Grotesk Fonts
+
+Six self-hosted font files in the `/fonts/` directory:
+
+<CodeGroup>
+```txt Regular
+HostGrotesk-Regular.woff
+HostGrotesk-Regular.woff2
+```
+
+```txt Medium
+HostGrotesk-Medium.woff
+HostGrotesk-Medium.woff2
+```
+
+```txt Medium Italic
+HostGrotesk-MediumItalic.woff
+HostGrotesk-MediumItalic.woff2
+```
+</CodeGroup>
+
+### Format Strategy
+
+| Format | Compression | Browser Support | Purpose |
+|--------|-------------|-----------------|----------|
+| WOFF2 | Best (~30% smaller) | Modern browsers | Primary format |
+| WOFF | Good | Wider support | Fallback format |
+
+<Tip>
+Serving both WOFF and WOFF2 ensures fonts load on browsers back to IE9 while optimizing file size for modern browsers.
+</Tip>
+
+### ServerMono Fonts
+
+ServerMono fonts are **not** self-hosted - they load from the internet-development CDN:
+
+```txt
+https://cdn.jsdelivr.net/gh/internet-development/www-server-mono@latest/public/fonts/
+- ServerMono-Regular.woff2
+- ServerMono-Regular.woff
+- ServerMono-Regular.otf
+- ServerMono-RegularOblique.woff2
+- ServerMono-RegularOblique.woff
+- ServerMono-RegularOblique.otf
+```
+
+<Note>
+Using a CDN for ServerMono leverages browser caching if visitors have accessed other sites using the same font source.
+</Note>
+
+## Favicon Setup
+
+The logo SVG likely serves as the favicon source, though specific favicon files are not present in the source directory.
+
+<Steps>
+  <Step title="Source">
+    Use `logo.svg` as the base favicon image
+  </Step>
+  <Step title="Generation">
+    Generate multiple sizes: 16x16, 32x32, 180x180 (Apple touch icon)
+  </Step>
+  <Step title="Formats">
+    Create `.ico`, `.png`, and keep `.svg` for modern browsers
+  </Step>
+</Steps>
+
+## Robots.txt Configuration
+
+### AI Bot Blocking
+
+The `robots.txt` file comprehensively blocks AI crawlers and training bots:
+
+```txt robots.txt
+User-agent: CCBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Google-CloudVertexBot
+Disallow: /
+
+User-agent: Applebot-Extended 
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot 
+Disallow: /
+```
+
+<Accordion title="View all blocked bots (26 total)">
+  <AccordionGroup>
+    <Accordion title="OpenAI & ChatGPT">
+      - CCBot
+      - ChatGPT-User
+      - GPTBot
+    </Accordion>
+    <Accordion title="Google AI">
+      - Google-Extended
+      - Google-CloudVertexBot
+    </Accordion>
+    <Accordion title="Anthropic">
+      - anthropic-ai
+      - ClaudeBot
+    </Accordion>
+    <Accordion title="Other AI Services">
+      - Applebot-Extended
+      - AI2Bot
+      - cohere-ai
+      - cohere-training-data-crawler
+      - PerplexityBot
+      - YouBot
+      - DuckAssistBot
+    </Accordion>
+    <Accordion title="Data Collection">
+      - Omgilibot
+      - Omgili
+      - FacebookBot
+      - Diffbot
+      - Bytespider (ByteDance)
+      - ImagesiftBot
+      - Timpibot
+      - Webzio-Extended
+    </Accordion>
+    <Accordion title="International Bots">
+      - Kangaroo Bot
+      - PanguBot
+    </Accordion>
+    <Accordion title="Meta">
+      - Meta-ExternalAgent
+      - Meta-ExternalFetcher
+    </Accordion>
+  </AccordionGroup>
+</Accordion>
+
+<Warning>
+This robots.txt blocks 26 different AI training crawlers, preventing the site content from being used in LLM training datasets.
+</Warning>
+
+### Purpose
+
+The extensive bot blocking serves to:
+
+- Prevent AI model training on site content
+- Reduce server load from crawler traffic
+- Maintain content privacy and control
+- Block data aggregation services
+
+## CNAME Configuration
+
+### Custom Domain
+
+The site uses a custom domain configured via CNAME:
+
+```txt CNAME
+r.foo.ng
+```
+
+<Info>
+The `.ng` TLD indicates a Nigerian domain. The `r` subdomain likely stands for "raster" or represents a personal/project identifier.
+</Info>
+
+### DNS Setup
+
+For GitHub Pages hosting:
+
+1. **Repository**: CNAME file in root directory
+2. **DNS Provider**: CNAME record pointing to `<username>.github.io`
+3. **GitHub Settings**: Custom domain configured to `r.foo.ng`
+
+<Tip>
+GitHub Pages automatically serves content over HTTPS for custom domains using Let's Encrypt certificates.
+</Tip>
+
+## Asset Organization
+
+```txt File Structure
+/
+├── logo.svg              # Main logo (559x559px)
+├── fonts/                # Self-hosted fonts
+│   ├── HostGrotesk-Regular.woff
+│   ├── HostGrotesk-Regular.woff2
+│   ├── HostGrotesk-Medium.woff
+│   ├── HostGrotesk-Medium.woff2
+│   ├── HostGrotesk-MediumItalic.woff
+│   └── HostGrotesk-MediumItalic.woff2
+├── robots.txt            # Crawler blocking rules
+└── CNAME                 # Custom domain config
+```
+
+## Performance Considerations
+
+<CardGroup cols={2}>
+  <Card title="Font Loading" icon="gauge-high">
+    Self-hosted WOFF2 fonts minimize external requests and enable HTTP/2 multiplexing
+  </Card>
+  <Card title="SVG Logo" icon="file-code">
+    Vector format scales perfectly and has tiny file size compared to raster images
+  </Card>
+  <Card title="Minimal Assets" icon="minimize">
+    Only essential files reduces initial page load and hosting costs
+  </Card>
+  <Card title="CDN Fonts" icon="network-wired">
+    ServerMono from jsdelivr CDN benefits from global distribution and browser caching
+  </Card>
+</CardGroup>

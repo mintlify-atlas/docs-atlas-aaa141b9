@@ -1,0 +1,160 @@
+---
+title: Typography
+description: Custom typography system with Host Grotesk and ServerMono fonts
+---
+
+## Overview
+
+The typography system uses two custom font families: **Host Grotesk** for body text and **ServerMono** for monospaced content. Both fonts implement progressive loading with `font-display: swap` for optimal performance.
+
+## Font Families
+
+### Host Grotesk
+
+Host Grotesk is the primary typeface used throughout the site. It's self-hosted with three variants:
+
+<CardGroup cols={3}>
+  <Card title="Regular" icon="font">
+    Normal weight for body text
+  </Card>
+  <Card title="Medium" icon="font">
+    Emphasis and headings
+  </Card>
+  <Card title="Medium Italic" icon="font">
+    Italic emphasis
+  </Card>
+</CardGroup>
+
+### ServerMono
+
+ServerMono is loaded from the internet-development CDN for monospaced content. Available in:
+
+- **Regular** - Standard monospace text
+- **Regular Oblique** - Slanted monospace style
+
+## Font Loading Strategy
+
+### Font Display Swap
+
+All fonts use `font-display: swap` to ensure text remains visible during font loading:
+
+<Info>
+`font-display: swap` shows fallback fonts immediately while custom fonts load in the background, preventing invisible text (FOIT) and improving perceived performance.
+</Info>
+
+### Progressive Enhancement
+
+ServerMono implements a progressive format cascade:
+
+1. **WOFF2** - Best compression for modern browsers
+2. **WOFF** - Good compression with wider support
+3. **OpenType** - Universal fallback
+
+## Font Face Declarations
+
+Here are the actual `@font-face` declarations from styles.css:
+
+### Host Grotesk Regular
+
+```css styles.css
+@font-face {
+  font-family: 'Host Grotesk';
+  src: url('/fonts/HostGrotesk-Regular.woff') format('woff'),
+       url('/fonts/HostGrotesk-Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+```
+
+### Host Grotesk Medium
+
+```css styles.css
+@font-face {
+  font-family: 'Host Grotesk';
+  src: url('/fonts/HostGrotesk-Medium.woff') format('woff'),
+       url('/fonts/HostGrotesk-Medium.woff2') format('woff2');
+  font-style: normal;
+  font-weight: medium;
+  font-display: swap;
+}
+```
+
+### Host Grotesk Medium Italic
+
+```css styles.css
+@font-face {
+  font-family: 'Host Grotesk';
+  src: url('/fonts/HostGrotesk-MediumItalic.woff') format('woff'),
+       url('/fonts/HostGrotesk-MediumItalic.woff2') format('woff2');
+  font-style: italic;
+  font-weight: medium;
+  font-display: swap;
+}
+```
+
+### ServerMono Regular
+
+```css styles.css
+@font-face {
+  font-family: 'ServerMono';
+  src: url('https://cdn.jsdelivr.net/gh/internet-development/www-server-mono@latest/public/fonts/ServerMono-Regular.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/internet-development/www-server-mono@latest/public/fonts/ServerMono-Regular.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/internet-development/www-server-mono@latest/public/fonts/ServerMono-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+### ServerMono Regular Oblique
+
+```css styles.css
+@font-face {
+  font-family: 'ServerMono';
+  src: url('https://cdn.jsdelivr.net/gh/internet-development/www-server-mono@latest/public/fonts/ServerMono-RegularOblique.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/internet-development/www-server-mono@latest/public/fonts/ServerMono-RegularOblique.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/internet-development/www-server-mono@latest/public/fonts/ServerMono-RegularOblique.otf') format('opentype');
+  font-weight: normal;
+  font-style: oblique;
+  font-display: swap;
+}
+```
+
+## Fallback Stack
+
+The site uses a comprehensive system font fallback stack:
+
+```css styles.css
+font-family: 'Host Grotesk', -apple-system, BlinkMacSystemFont, avenir next, avenir, 
+             segoe ui, helvetica neue, Adwaita Sans, Cantarell, Ubuntu, roboto, 
+             noto, helvetica, arial, sans-serif;
+```
+
+<Note>
+This fallback stack ensures readable text on all platforms while fonts load, with platform-specific optimizations for macOS, Windows, and Linux.
+</Note>
+
+## Typography Settings
+
+| Property | Value | Usage |
+|----------|-------|-------|
+| Base font size | `20px` | Body text |
+| Font weight | `400` | Default text weight |
+| Font family | Host Grotesk | Primary typeface |
+| Line height | Default | Natural spacing |
+
+## Font Files
+
+Host Grotesk fonts are self-hosted in `/fonts/`:
+
+- `HostGrotesk-Regular.woff`
+- `HostGrotesk-Regular.woff2`
+- `HostGrotesk-Medium.woff`
+- `HostGrotesk-Medium.woff2`
+- `HostGrotesk-MediumItalic.woff`
+- `HostGrotesk-MediumItalic.woff2`
+
+<Tip>
+WOFF2 format provides approximately 30% better compression than WOFF, making it the preferred format for modern browsers.
+</Tip>

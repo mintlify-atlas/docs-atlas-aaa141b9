@@ -1,0 +1,208 @@
+---
+title: Styling
+description: CSS approach, custom properties, and component styles
+---
+
+## Overview
+
+The styling system uses vanilla CSS with custom properties, centered table-cell layout, and minimal component styles. The design emphasizes simplicity with a strict black-and-white color scheme.
+
+## CSS Custom Properties
+
+Two custom properties define the entire color system:
+
+```css styles.css
+:root {
+    --sub: #828282;
+    --main: #000000;
+}
+```
+
+<CardGroup cols={2}>
+  <Card title="--main" icon="palette">
+    `#000000` - Primary black for text and main content
+  </Card>
+  <Card title="--sub" icon="palette">
+    `#828282` - Subdued gray for secondary elements
+  </Card>
+</CardGroup>
+
+## Color Scheme
+
+The site uses a strict monochrome palette:
+
+| Element | Color | Variable |
+|---------|-------|----------|
+| Text | `#000000` (black) | `--main` |
+| Background | `#ffffff` (white) | - |
+| Links | `#000000` (black) | - |
+| Button background | `#b8b8b8` (light gray) | - |
+| Button text | `#ffffff` (white) | - |
+
+<Info>
+Black text on white background provides maximum contrast and readability across all devices and lighting conditions.
+</Info>
+
+## Layout System
+
+### Centered Table-Cell Layout
+
+The site uses a unique centering approach with CSS table display:
+
+```css styles.css
+html, body {
+    height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    width: 70%;
+    max-width: 400px;
+    display: table-cell;
+    vertical-align: middle;
+}
+```
+
+<Steps>
+  <Step title="HTML element">
+    Set to `display: table` with `height: 100%` and `margin: auto` for horizontal centering
+  </Step>
+  <Step title="Body element">
+    Set to `display: table-cell` with `vertical-align: middle` for vertical centering
+  </Step>
+  <Step title="Width constraint">
+    Content is 70% width with a maximum of 400px for optimal readability
+  </Step>
+</Steps>
+
+### Body Styles
+
+Complete body styling:
+
+```css styles.css
+body {
+    font-family: 'Host Grotesk', -apple-system, BlinkMacSystemFont, avenir next, avenir, 
+                 segoe ui, helvetica neue, Adwaita Sans, Cantarell, Ubuntu, roboto, 
+                 noto, helvetica, arial, sans-serif;
+    padding: 18px;
+    color: #000000;
+    background-color: #ffffff;
+    font-size: 20px;
+    scrollbar-width: none;
+    font-weight: 400;
+    width: 70%;
+    max-width: 400px;
+    display: table-cell;
+    vertical-align: middle;
+}
+```
+
+<Note>
+`scrollbar-width: none` hides the scrollbar for a cleaner visual presentation on supporting browsers.
+</Note>
+
+## Component Styles
+
+### Button Styles (.ftr)
+
+Buttons use the `.ftr` class with rounded corners and gray background:
+
+```css styles.css
+.ftr {
+  font-size: 12px;
+  padding: 4px 7px;
+  border-radius: 7px;
+  background-color: #b8b8b8;
+  color: #ffffff;
+  text-decoration: none;
+  margin-left: 3px
+}
+```
+
+<CardGroup cols={2}>
+  <Card title="Visual Style">
+    - Small text (12px)
+    - Rounded corners (7px)
+    - Light gray background
+    - White text
+  </Card>
+  <Card title="Spacing">
+    - Compact padding (4px 7px)
+    - 3px left margin
+    - No text decoration
+  </Card>
+</CardGroup>
+
+### Logo Styles (.logo)
+
+The logo is displayed as a small inline icon:
+
+```css styles.css
+.logo {
+  width: 12px;
+  height: 12px;
+}
+```
+
+<Info>
+At 12x12 pixels, the logo serves as a compact visual identifier without dominating the layout.
+</Info>
+
+### Link Styles
+
+Links maintain the monochrome aesthetic:
+
+```css styles.css
+a {
+    color: #000000
+}
+```
+
+Links use the same black color as body text, relying on underlines or context for identification.
+
+## Responsive Design
+
+### Flexible Width
+
+The `70%` width with `max-width: 400px` creates a responsive layout:
+
+- **Small screens**: Content uses 70% of available width
+- **Large screens**: Content caps at 400px for optimal reading line length
+- **All sizes**: Content remains horizontally and vertically centered
+
+<Tip>
+The 400px maximum width keeps text lines at approximately 50-75 characters, which is optimal for readability according to typography research.
+</Tip>
+
+### Padding and Spacing
+
+Minimal `18px` padding on the body provides breathing room on all screen sizes without excessive whitespace.
+
+## Design Philosophy
+
+<CardGroup cols={3}>
+  <Card title="Minimal" icon="minimize">
+    Only essential styles, no decorative elements
+  </Card>
+  <Card title="Readable" icon="book-open">
+    Large text (20px), high contrast, optimal line length
+  </Card>
+  <Card title="Centered" icon="align-center">
+    Both horizontal and vertical centering for focus
+  </Card>
+</CardGroup>
+
+## Key CSS Techniques
+
+1. **Table-cell centering** - Classic technique for perfect vertical and horizontal alignment
+2. **Custom properties** - Centralized color management
+3. **Progressive font loading** - `font-display: swap` prevents invisible text
+4. **Relative sizing** - 70% width adapts to screen size while maintaining max-width constraint
+
+<Warning>
+The `display: table` and `display: table-cell` technique may behave unexpectedly with some modern layout features like CSS Grid children. Use as a standalone layout approach.
+</Warning>

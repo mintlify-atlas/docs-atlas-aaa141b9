@@ -1,97 +1,199 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: raster's personal website
+description: A minimalist personal website and portfolio featuring custom typography and curated links
+mode: custom
 ---
 
-## Setting up
+<div className="relative overflow-hidden bg-white dark:bg-[#0f1117] py-16 sm:py-20">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
+      <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-7 lg:text-left">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-gray-100">
+          raster's personal website
+        </h1>
+        <p className="mt-4 text-base sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl">
+          A minimalist personal website built with custom typography, clean design principles, and modern web standards. Explore the design system, features, and development guide.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3 sm:flex-row sm:justify-center lg:justify-start">
+          <a
+            href="/getting-started"
+            className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-black dark:bg-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
+          >
+            Get started
+          </a>
+          <a
+            href="/introduction"
+            className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 dark:border-gray-700 text-base font-medium rounded-lg text-gray-900 dark:text-gray-100 bg-white dark:bg-[#1a1d27] hover:bg-gray-50 dark:hover:bg-[#242838] transition-colors"
+          >
+            Explore docs
+          </a>
+        </div>
+      </div>
+      <div className="mt-12 lg:mt-0 lg:col-span-5 flex justify-center lg:justify-end">
+        <img
+          src="/logo/light.svg"
+          alt="raster logo"
+          noZoom
+          className="w-48 h-48 sm:w-64 sm:h-64 dark:hidden"
+        />
+        <img
+          src="/logo/dark.svg"
+          alt="raster logo"
+          noZoom
+          className="w-48 h-48 sm:w-64 sm:h-64 hidden dark:block"
+        />
+      </div>
+    </div>
+  </div>
+</div>
 
-Get your documentation site up and running in minutes.
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-3">
+    Quick start
+  </h2>
+  <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
+    Get familiar with the website structure and design system in just a few steps.
+  </p>
+  
+  <Steps>
+    <Step title="Clone the repository">
+      Start by cloning the repository to your local machine:
+      
+      ```bash
+      git clone https://github.com/rdotsvg/rdotsvg.github.io.git
+      cd rdotsvg.github.io
+      ```
+    </Step>
+    
+    <Step title="Install dependencies">
+      The site uses motion and Paper Design shaders. Install them with your preferred package manager:
+      
+      ```bash npm
+      npm install
+      ```
+      
+      The `package.json` includes:
+      - `@paper-design/shaders-react` (^0.0.71) - For visual effects
+      - `motion` (^12.34.0) - For animations
+    </Step>
+    
+    <Step title="Explore the design system">
+      The site uses custom typography with Host Grotesk and ServerMono fonts. Check out `styles.css` to see:
+      
+      ```css
+      :root {
+        --sub: #828282;
+        --main: #000000;
+      }
+      
+      body {
+        font-family: 'Host Grotesk', -apple-system, ...;
+        color: #000000;
+        background-color: #ffffff;
+      }
+      ```
+      
+      Learn more about the typography system in the [typography guide](/design/typography).
+    </Step>
+    
+    <Step title="Preview locally">
+      Open `index.html` in your browser to see the site. The layout is centered with a max-width of 400px for a focused reading experience.
+    </Step>
+  </Steps>
+</div>
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-3">
+    Explore by topic
+  </h2>
+  <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
+    Dive into specific areas of the website documentation.
+  </p>
+  
+  <CardGroup cols={2}>
     <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+      title="Design system"
+      icon="palette"
+      href="/design/typography"
+    >
+      Learn about the custom typography, styling approach, and visual assets that make up the design system.
+    </Card>
+    <Card
+      title="Features"
+      icon="sparkles"
+      href="/features/status-cafe"
+    >
+      Discover integrated features like Status.cafe, the curated links page, and Convex backend integration.
+    </Card>
+    <Card
+      title="Development"
+      icon="code"
+      href="/development/structure"
+    >
+      Understand the project structure, deployment process, and how to customize the site for your needs.
+    </Card>
+    <Card
+      title="Getting started"
+      icon="rocket"
+      href="/getting-started"
+    >
+      Step-by-step guide to setting up and understanding the website codebase.
+    </Card>
+  </CardGroup>
+</div>
 
-## Create beautiful pages
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-3">
+    Key features
+  </h2>
+  <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
+    What makes this personal website unique.
+  </p>
+  
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="border border-gray-200 dark:border-[#27272a] rounded-lg p-6 bg-white dark:bg-[#1a1d27]">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Custom typography</h3>
+      <p className="text-sm text-gray-600 dark:text-gray-400">
+        Host Grotesk and ServerMono fonts create a distinctive reading experience with optimized font loading strategies.
+      </p>
+    </div>
+    
+    <div className="border border-gray-200 dark:border-[#27272a] rounded-lg p-6 bg-white dark:bg-[#1a1d27]">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Status.cafe integration</h3>
+      <p className="text-sm text-gray-600 dark:text-gray-400">
+        Real-time status updates from Status.cafe display directly on the homepage with a simple script integration.
+      </p>
+    </div>
+    
+    <div className="border border-gray-200 dark:border-[#27272a] rounded-lg p-6 bg-white dark:bg-[#1a1d27]">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Curated links</h3>
+      <p className="text-sm text-gray-600 dark:text-gray-400">
+        A dedicated links page features carefully selected tools and resources across blogging, browsers, and media tools.
+      </p>
+    </div>
+    
+    <div className="border border-gray-200 dark:border-[#27272a] rounded-lg p-6 bg-white dark:bg-[#1a1d27]">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Convex backend</h3>
+      <p className="text-sm text-gray-600 dark:text-gray-400">
+        Post management is powered by Convex with a simple mutation API for creating and storing content.
+      </p>
+    </div>
+  </div>
+</div>
 
-Everything you need to create world-class documentation.
-
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<div className="mt-20 mb-16 max-w-5xl mx-auto px-6">
+  <div className="border border-gray-200 dark:border-[#27272a] rounded-2xl p-8 sm:p-12 bg-gray-50 dark:bg-[#1a1d27] text-center">
+    <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-3">
+      Ready to explore?
+    </h2>
+    <p className="text-base text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
+      Start with the introduction to understand the website's design philosophy and architecture.
+    </p>
+    <a
+      href="/introduction"
+      className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-black dark:bg-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
+    >
+      View introduction
+    </a>
+  </div>
+</div>

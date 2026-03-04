@@ -1,0 +1,393 @@
+---
+title: 'Deployment'
+description: 'How raster''s website is deployed using GitHub Pages with custom domain configuration'
+---
+
+## GitHub Pages Hosting
+
+The site is hosted on GitHub Pages using a **username.github.io** repository pattern, which provides automatic deployment and free hosting.
+
+### Repository Configuration
+
+**Repository Name:** `rdotsvg.github.io`
+
+<Accordion title="Why this naming pattern?">
+  GitHub Pages recognizes `[username].github.io` repositories as special **user sites**:
+  
+  - Automatically deployed from the `main` branch
+  - No manual workflow configuration needed
+  - Served from repository root (not `/docs` folder)
+  - Custom domain support built-in
+  
+  Regular project repositories require manual Pages configuration.
+</Accordion>
+
+### Deployment Workflow
+
+<Steps>
+  <Step title="Push to Main Branch">
+    Any commit pushed to the `main` branch automatically triggers deployment:
+    
+    ```bash
+    git add .
+    git commit -m "Update homepage content"
+    git push origin main
+    ```
+  </Step>
+  
+  <Step title="GitHub Pages Build">
+    GitHub automatically:
+    - Detects changes in the repository
+    - Serves static files from root directory
+    - Updates live site within 1-2 minutes
+    - No build process or compilation needed
+  </Step>
+  
+  <Step title="DNS Propagation">
+    Custom domain changes may take longer:
+    - CNAME file changes: Instant
+    - DNS record updates: 5-60 minutes
+    - Full propagation: Up to 48 hours
+  </Step>
+</Steps>
+
+## Custom Domain Setup
+
+The site uses a custom domain (`r.foo.ng`) instead of the default `rdotsvg.github.io` URL.
+
+### CNAME Configuration
+
+**CNAME file** in repository root:
+
+```
+r.foo.ng
+```
+
+<Warning>
+  The CNAME file must contain ONLY the domain name with no protocol (no `https://`) or trailing slash.
+</Warning>
+
+### DNS Configuration
+
+Configure DNS records at your domain registrar (foo.ng):
+
+<Tabs>
+  <Tab title="CNAME Record (Subdomain)">
+    For subdomain `r.foo.ng`:
+    
+    | Type  | Name | Value                    | TTL  |
+    |-------|------|--------------------------|------|
+    | CNAME | r    | rdotsvg.github.io.       | 3600 |
+    
+    <Warning>
+      Note the trailing dot in `rdotsvg.github.io.` - some DNS providers require it.
+    </Warning>
+  </Tab>
+  
+  <Tab title="A Records (Apex Domain)">
+    For apex domain `foo.ng` (if hosting there instead):
+    
+    | Type | Name | Value           | TTL  |
+    |------|------|-----------------|------|
+    | A    | @    | 185.199.108.153 | 3600 |
+    | A    | @    | 185.199.109.153 | 3600 |
+    | A    | @    | 185.199.110.153 | 3600 |
+    | A    | @    | 185.199.111.153 | 3600 |
+    
+    These are GitHub's official IP addresses for Pages hosting.
+  </Tab>
+</Tabs>
+
+### HTTPS/SSL
+
+GitHub Pages automatically provisions SSL certificates:
+
+1. Add CNAME file to repository
+2. Configure DNS records
+3. Go to repository Settings → Pages
+4. Check "Enforce HTTPS" (after DNS propagates)
+
+<Warning>
+  HTTPS enforcement may fail if DNS hasn't fully propagated. Wait 10-15 minutes before enabling.
+</Warning>
+
+## SEO Configuration
+
+The site uses **robots.txt** to control bot access and prevent AI training scrapers.
+
+### robots.txt Implementation
+
+```
+User-agent: CCBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+```
+
+<Accordion title="Bot Blocking Strategy">
+  **Blocked User-Agents:**
+  - AI training crawlers (GPTBot, ClaudeBot, cohere-ai)
+  - AI assistant tools (ChatGPT-User, PerplexityBot)
+  - Data aggregators (Diffbot, Omgilibot, FacebookBot)
+  - Extended search bots (Google-Extended, Applebot-Extended)
+  
+  **Allowed User-Agents:**
+  - Standard search engines (Googlebot, Bingbot)
+  - Social media preview crawlers (Twitter, Discord)
+  - Analytics and monitoring tools
+</Accordion>
+
+### Accessing robots.txt
+
+The file is served at the root URL:
+
+```
+https://r.foo.ng/robots.txt
+```
+
+<Warning>
+  robots.txt is advisory only. Malicious bots may ignore it. Consider additional protection like Cloudflare for strict enforcement.
+</Warning>
+
+## Git Workflow
+
+### Branch Strategy
+
+**Single Branch Deployment:**
+
+- Main branch: `main` (production)
+- All changes committed directly to main
+- No separate development or staging branches
+
+<Tabs>
+  <Tab title="Simple Workflow">
+    Ideal for personal sites with single maintainer:
+    
+    ```bash
+    # Make changes
+    git add index.html
+    git commit -m "Update bio section"
+    git push origin main
+    
+    # Site updates automatically
+    ```
+  </Tab>
+  
+  <Tab title="Feature Branch Workflow">
+    For larger changes, use temporary branches:
+    
+    ```bash
+    # Create feature branch
+    git checkout -b redesign-homepage
+    
+    # Make changes
+    git add styles.css index.html
+    git commit -m "Redesign homepage layout"
+    
+    # Merge to main
+    git checkout main
+    git merge redesign-homepage
+    git push origin main
+    
+    # Delete feature branch
+    git branch -d redesign-homepage
+    ```
+  </Tab>
+</Tabs>
+
+### Deployment Checklist
+
+<Steps>
+  <Step title="Local Testing">
+    Test changes locally before deploying:
+    
+    ```bash
+    # Option 1: Python simple server
+    python3 -m http.server 8000
+    
+    # Option 2: Node.js http-server
+    npx http-server -p 8000
+    
+    # Visit http://localhost:8000
+    ```
+  </Step>
+  
+  <Step title="Validate Files">
+    Check critical files exist:
+    - `index.html` in root
+    - `styles.css` referenced correctly
+    - `CNAME` contains correct domain
+    - `robots.txt` has proper formatting
+  </Step>
+  
+  <Step title="Commit and Push">
+    Deploy to production:
+    
+    ```bash
+    git add .
+    git commit -m "Descriptive commit message"
+    git push origin main
+    ```
+  </Step>
+  
+  <Step title="Verify Deployment">
+    Check the live site:
+    - Visit https://r.foo.ng
+    - Test in multiple browsers
+    - Verify mobile responsiveness
+    - Check Status.cafe widget loads
+  </Step>
+</Steps>
+
+## CDN Usage
+
+The site leverages CDNs for external resources to improve performance and reduce repository size.
+
+### jsdelivr CDN
+
+**ServerMono Font Loading:**
+
+```css
+@font-face {
+  font-family: 'ServerMono';
+  src: url('https://cdn.jsdelivr.net/gh/internet-development/www-server-mono@latest/public/fonts/ServerMono-Regular.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/internet-development/www-server-mono@latest/public/fonts/ServerMono-Regular.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/internet-development/www-server-mono@latest/public/fonts/ServerMono-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+<Accordion title="Why jsdelivr?">
+  **Benefits:**
+  - Free CDN with global edge locations
+  - GitHub repository direct linking
+  - Automatic version management with `@latest` tag
+  - HTTP/2 support for faster loading
+  - No account or API keys required
+  
+  **Format fallback chain:**
+  1. WOFF2 (best compression, modern browsers)
+  2. WOFF (good compression, wide support)
+  3. OTF (universal compatibility)
+</Accordion>
+
+### External Scripts
+
+**Status.cafe Widget:**
+
+```html
+<script src="https://status.cafe/current-status.js?name=raster" defer></script>
+```
+
+**zero-md (Links page):**
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/zero-md@3?register"></script>
+```
+
+<Warning>
+  Using `defer` or `type="module"` prevents scripts from blocking page rendering.
+</Warning>
+
+## Performance Optimization
+
+### File Size Strategy
+
+- **HTML:** Minified inline styles removed in favor of external CSS
+- **CSS:** Single 2KB stylesheet for entire site
+- **Fonts:** WOFF2 format reduces font size by ~30% vs TTF
+- **SVG:** Optimized logo with minimal path data
+
+### Caching Headers
+
+GitHub Pages automatically sets cache headers:
+
+```
+Cache-Control: max-age=600
+```
+
+<Accordion title="Cache Duration by File Type">
+  | File Type | Cache Time | Rationale |
+  |-----------|------------|------------|
+  | HTML      | 10 minutes | Frequent updates |
+  | CSS       | 10 minutes | Style iterations |
+  | Fonts     | 1 year     | Rarely change |
+  | Images    | 1 year     | Static assets |
+</Accordion>
+
+## Troubleshooting
+
+<Accordion title="Site not updating after push">
+  **Possible causes:**
+  
+  1. Browser cache - Hard refresh with Ctrl+Shift+R (Cmd+Shift+R on Mac)
+  2. CDN cache - Wait 5-10 minutes for propagation
+  3. GitHub Pages build failed - Check repository Actions tab
+  4. Wrong branch - Ensure pushing to `main` branch
+  
+  **Solution:**
+  ```bash
+  # Check current branch
+  git branch
+  
+  # View push status
+  git log -1
+  
+  # Force push if needed (use carefully)
+  git push -f origin main
+  ```
+</Accordion>
+
+<Accordion title="Custom domain not working">
+  **Checklist:**
+  
+  1. CNAME file exists in repository root
+  2. CNAME contains only domain (no https:// or /)
+  3. DNS records configured at registrar
+  4. DNS propagation complete (check with `dig r.foo.ng`)
+  5. HTTPS enforcement disabled temporarily
+  
+  **Verify DNS:**
+  ```bash
+  # Check DNS resolution
+  dig r.foo.ng
+  
+  # Should show CNAME pointing to rdotsvg.github.io
+  ```
+</Accordion>
+
+<Accordion title="Status.cafe widget not loading">
+  **Common issues:**
+  
+  1. Username mismatch in script URL
+  2. Status.cafe service down
+  3. Ad blocker blocking external scripts
+  4. CORS policy on some networks
+  
+  **Test widget:**
+  ```html
+  <!-- Verify username is correct -->
+  <script src="https://status.cafe/current-status.js?name=raster" defer></script>
+  
+  <!-- Check widget container exists -->
+  <div id="statuscafe">
+    <div id="statuscafe-username"></div>
+    <div id="statuscafe-content"></div>
+  </div>
+  ```
+</Accordion>
